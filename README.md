@@ -1,4 +1,4 @@
-![Jackie Chan](jackie-chan.jpg)
+![Chuck Norris](chuck-norris.png)
 
 # Roundhousekiq
 
