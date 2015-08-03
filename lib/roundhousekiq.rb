@@ -1,5 +1,6 @@
 require "roundhousekiq/configuration"
 require "roundhousekiq/version"
+require "roundhousekiq/worker"
 require "roundhousekiq/workers"
 require "roundhousekiq/worker_definition"
 
