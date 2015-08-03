@@ -1,5 +1,7 @@
 require "roundhousekiq/configuration"
 require "roundhousekiq/version"
+require "roundhousekiq/workers"
+require "roundhousekiq/worker_definition"
 
 module Roundhousekiq
   def self.configure
