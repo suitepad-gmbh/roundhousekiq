@@ -1,8 +1,10 @@
-require "roundhousekiq/configuration"
-require "roundhousekiq/version"
-require "roundhousekiq/worker"
-require "roundhousekiq/workers"
-require "roundhousekiq/worker_definition"
+require 'bunny'
+require 'roundhousekiq/configuration'
+require 'roundhousekiq/runner'
+require 'roundhousekiq/version'
+require 'roundhousekiq/worker'
+require 'roundhousekiq/workers'
+require 'roundhousekiq/worker_definition'
 
 module Roundhousekiq
   def self.configure
