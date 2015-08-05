@@ -2,6 +2,11 @@
 
 # Roundhousekiq
 
+![Gem version](https://img.shields.io/gem/v/roundhousekiq.svg?style=flat)
+![Build Status](https://img.shields.io/travis/suitepad-gmbh/roundhousekiq.svg?style=flat)
+![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
+![CC Score](https://img.shields.io/codeclimate/github/suitepad-gmbh/roundhousekiq.svg?style=flat)
+
 Small AMQP to Sidekiq bridge, allowing Sidekiq jobs to be triggered via AMQP.
 You define your Sidekiq jobs as usual, but instead of manually invoking the
 jobs, you define to which AMQP event the worker should listen on.
@@ -65,7 +70,7 @@ your AMQP host.
     # config.host = '127.0.0.1'
 
     # AMQP host port
-    # config.port = '6379'
+    # config.port = '5672'
 
     # AMQP vhost to be connected to
     # config.vhost = '/'
