@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["moritz.lawitschka@suitepad.de"]
   spec.summary       = %q{AMQP to Sidekiq bridge}
   spec.description   = %q{Trigger Sidekiq jobs asynchronously over AMQP}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/suitepad-gmbh/roundhousekiq"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec-nc", "~> 0.2.0"
   spec.add_development_dependency "guard", "~> 2.13.0"
   spec.add_development_dependency "guard-rspec", "~> 4.6.4"
+  spec.add_development_dependency "codeclimate-test-reporter"
 end

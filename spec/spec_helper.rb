@@ -1,3 +1,7 @@
+# Load Code Climate coverage reporter
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
+
 require './lib/roundhousekiq'
 
 RSpec.configure do |config|
