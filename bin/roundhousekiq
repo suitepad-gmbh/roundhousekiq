@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+# Load Rails environment
+ENV['RAILS_ENV'] ||= 'development'
+require File.expand_path('./config/boot')
+require File.expand_path('./config/environment')
+
+# Always pre-load Rails application
+::Rails.application.eager_load!
+
+runner = Roundhousekiq::Runner.new
+runner.run
+
+# Trap `Kill `
+Signal.trap("TERM") do
+  runner.shutdown
+end
