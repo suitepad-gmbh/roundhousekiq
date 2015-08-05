@@ -11,5 +11,7 @@ describe Roundhousekiq::Configuration do
   it { should respond_to :username= }
   it { should respond_to :password }
   it { should respond_to :password= }
+  it { should respond_to :prefetch }
+  it { should respond_to :prefetch= }
 
 end
