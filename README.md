@@ -6,6 +6,7 @@
 ![Build Status](https://img.shields.io/travis/suitepad-gmbh/roundhousekiq.svg?style=flat)
 ![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 ![CC Score](https://img.shields.io/codeclimate/github/suitepad-gmbh/roundhousekiq.svg?style=flat)
+![Coverage](https://img.shields.io/codeclimate/coverage/github/suitepad-gmbh/roundhousekiq.svg?style=flat)
 
 Small AMQP to Sidekiq bridge, allowing Sidekiq jobs to be triggered via AMQP.
 You define your Sidekiq jobs as usual, but instead of manually invoking the
