@@ -6,24 +6,31 @@ Small AMQP to Sidekiq bridge, allowing Sidekiq jobs to be triggered via AMQP.
 You define your Sidekiq jobs as usual, but instead of manually invoking the
 jobs, you define to which AMQP event the worker should listen on.
 
-Take for example our device pings, which are already sent via AMQP and must be
-processed by the API. We simply write a worker processing these pings and
-specify that the worker should be executed for every message received on the
-direct exchange with the routing key `ping`.
+Take for example a fleet of services all reporting their current status every
+once in a while to your central monitoring service. Because these services do
+not care about when their status report is being processed and by whom, they
+simple send it via your AMQP server's `status` exchange and let others handle
+the rest.
+
+The monitoring service now uses Roundhousekiq to asynchronously process these
+status reports and to keep the load from the main server process, it does the
+processing in background using Sidekiq. Simply set up a new Sidekiq worker,
+specify the AMQP exchange and routing key to listen on, and let Roundhousekiq
+handle the AMQP bindings and finding the right worker for each message:
 
 ```ruby
-class DevicePingWorker
+class StatusWorker
   include Sidekiq::Worker
   include Roundhousekiq::Worker
 
   # AMQP configuration
-  exchange_name 'suitepad.server'
-  exchange_type :direct
-  queue_name    'suitepad.server.pings_v2'
-  routing_key   :ping
+  exchange_name 'status'
+  exchange_type :topic
+  queue_name    'roundhousekiq_status_worker'
+  routing_key   'status.*'
 
   # Attributes:
-  #   payload: Payload directly from AMQP
+  #   payload: Parsed JSON payload directly from AMQP
   def perform(payload)
     # Heavy computing action...
   end
@@ -39,8 +46,6 @@ Add this line to your application's Gemfile:
 gem 'roundhousekiq'
 ```
 
-Make sure, you've included the SuitePad gem host or the gem won't be found.
-
 And then execute:
 
     $ bundle
@@ -51,4 +56,59 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+1. Create an initializer in _config/initializers/roundhousekiq.rb_ and specify
+your AMQP host.
+
+  ```ruby
+  Roundhousekiq.configure do |config|
+    # AMQP host address
+    # config.host = '127.0.0.1'
+
+    # AMQP host port
+    # config.port = '6379'
+
+    # AMQP vhost to be connected to
+    # config.vhost = '/'
+
+    # User credentials
+    # config.username = 'guest'
+    # config.password = 'guest'
+
+    # Prefetch count on all queues Roundhousekiq will subscribe to
+    # config.prefetch = 256
+  end
+  ```
+
+2. Create your first worker. This worker does only differ from a normal Sidekiq
+worker in the `Roundhousekiq::Worker` module being included and specifying which
+exchange and routing key to listen on:
+
+  ```ruby
+  class Worker
+    include Sidekiq::Worker
+    include Roundhousekiq::Worker
+
+    exchange_name 'amq.topic'
+    exchange_type :topic
+    queue_name    'worker'
+    routing_key   'work'
+
+    def perform(payload)
+      # ...
+    end
+  end
+  ```
+
+  A persistent queue named _worker_ bound to the _amq.topic_ exchange with the
+  routing key _work_ will be created. Each time a message arrives in that
+  queue, this worker will be triggered.
+
+  You do not have to specify a queue name, if you do not want to have a
+  persistent queue. AMQP will automatically create a queue for that worker,
+  which is being deleted once the Roundhousekiq daemon shuts down.
+
+3. Run the Roundhousekiq daemon from the root of your Rails project:
+
+  ```shell
+  $ bundle exec roundhousekiq
+  ```
