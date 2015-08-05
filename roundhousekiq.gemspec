@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["moritz.lawitschka@suitepad.de"]
   spec.summary       = %q{AMQP to Sidekiq bridge}
   spec.description   = %q{Trigger Sidekiq jobs asynchronously over AMQP}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/suitepad-gmbh/roundhousekiq"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
