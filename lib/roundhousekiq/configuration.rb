@@ -3,7 +3,7 @@ module Roundhousekiq
     def initialize
       # AMQP connection
       self.host     = '127.0.0.1'
-      self.port     = '6379'
+      self.port     = '5672'
       self.vhost    = '/'
       self.prefetch = 256
 
